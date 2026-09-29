@@ -33,7 +33,7 @@ button{cursor:pointer;border:0;background:none}
 .ctl{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:14px;background:var(--inset);font-weight:600;font-size:14px;transition:transform .1s,filter .2s}
 .btn:hover{filter:brightness(.96)}.btn:active{transform:scale(.97)}
-.btn.pri{background:var(--accent,#22c55e);color:#fff;padding:13px 28px;font-size:15px}
+.btn.pri{background:var(--accent,#6366f1);color:#fff;padding:13px 28px;font-size:15px}
 .btn.pri:hover{filter:brightness(1.08)}
 .btn.danger{background:#ef4444;color:#fff}
 .btn:disabled{opacity:.4;cursor:not-allowed}
@@ -42,7 +42,7 @@ button{cursor:pointer;border:0;background:none}
 .icon.del:hover{color:#ef4444}
 .add{display:flex;gap:8px;margin:0 0 14px;padding:10px;flex-wrap:wrap}
 .add input{background:var(--inset);border:1px solid transparent;border-radius:12px;padding:12px 14px;min-width:0}
-.add input:focus{outline:none;border-color:var(--accent,#22c55e)}
+.add input:focus{outline:none;border-color:var(--accent,#6366f1)}
 .add .t{flex:1 1 200px}.add .m{width:84px}
 .meta{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);margin:0 4px 10px}
 .total{height:4px;border-radius:9px;background:var(--inset);margin:0 4px 14px;overflow:hidden}.total>i{display:block;height:100%;background:#22c55e;transition:width .3s}
@@ -60,18 +60,17 @@ ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
 .time{font-variant-numeric:tabular-nums;font-size:14px;color:var(--muted);font-weight:600;min-width:52px;text-align:right}
 .badge{font-size:11px;font-weight:600;padding:2px 8px;border-radius:99px;background:var(--inset);color:var(--muted);margin-left:8px}
 .acts{display:flex;justify-content:flex-end;gap:2px;margin-top:6px;flex-wrap:wrap}
-.sw{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;padding:6px 4px 0}
-.sw button{width:24px;height:24px;border-radius:50%;background:var(--c);border:3px solid var(--card);box-shadow:0 0 0 1px var(--line);flex:none}
+.sw{display:flex;gap:8px;justify-content:flex-end;padding:6px 4px 0}
+.sw button{width:24px;height:24px;border-radius:50%;background:var(--c);border:3px solid var(--card);box-shadow:0 0 0 1px var(--line)}
 .sw button.on{box-shadow:0 0 0 2px var(--text)}
-.sw button.none{background:linear-gradient(135deg,transparent 45%,#ef4444 45%,#ef4444 55%,transparent 55%),var(--card)}
 .grip{cursor:grab;color:var(--muted);display:grid;place-items:center;width:18px;flex:none;margin-left:-6px;touch-action:none}
 .grip:active{cursor:grabbing}
 .item.dragging{opacity:.4}
 .item.over{box-shadow:0 -3px 0 0 var(--c),var(--shadow)}
 .sel{background:var(--inset);border:1px solid var(--line);border-radius:10px;padding:5px 8px;font-size:12px;color:var(--muted);cursor:pointer;font-family:inherit}
-.sel:focus-visible{outline:2px solid var(--accent,#22c55e)}
+.sel:focus-visible{outline:2px solid var(--accent,#6366f1)}
 .mr{display:flex;align-items:center;gap:8px}
-.board{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.25fr) minmax(0,1fr) minmax(220px,280px);gap:20px;align-items:start}
+.board{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.25fr) minmax(0,1fr);gap:20px;align-items:start}
 .col-timer{position:sticky;top:16px}
 .colh{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 2px 12px;min-height:34px}
 .colh h2{margin:0;font-size:15px;font-weight:700;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
@@ -81,19 +80,19 @@ ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
 .stats .total{margin:0 0 14px}
 .col-done .item{border-left-color:var(--c)}
 .big.long{font-size:clamp(40px,6vw,76px);font-size:clamp(40px,17cqw,96px)}
-@media (max-width:1000px){.board{grid-template-columns:minmax(0,1fr)}.col-timer{position:static;order:1}.col-todo{order:2}.col-done{order:3}.col-notes{order:4;max-width:none}}
+@media (max-width:1000px){.board{grid-template-columns:minmax(0,1fr)}.col-timer{position:static;order:1}.col-todo{order:2}.col-done{order:3}}
 .tools{position:relative;display:flex;gap:2px}
 .icon.on{background:var(--inset);color:var(--text)}
 .pop{position:absolute;right:0;top:calc(100% + 8px);width:min(320px,calc(100vw - 32px));padding:14px;z-index:8;animation:pop .12s ease-out}
 .ph{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .vol{display:flex;align-items:center;gap:10px;color:var(--muted);margin-bottom:14px}
-.vol input{flex:1;min-width:0;accent-color:var(--accent,#22c55e);cursor:pointer}
+.vol input{flex:1;min-width:0;accent-color:var(--accent,#6366f1);cursor:pointer}
 .pv{font-size:12px;font-weight:600;min-width:38px;text-align:right;font-variant-numeric:tabular-nums}
 .pl{font-size:12px;color:var(--muted);font-weight:600;margin:0 2px 6px;text-transform:uppercase;letter-spacing:.06em}
 .snd{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:9px 10px;border-radius:10px;color:var(--text)}
 .snd:hover,.snd.on{background:var(--inset)}
 .rd{width:16px;height:16px;border-radius:50%;border:2px solid var(--muted);flex:none}
-.snd.on .rd{border-color:var(--accent,#22c55e);background:radial-gradient(circle,var(--accent,#22c55e) 45%,transparent 50%)}
+.snd.on .rd{border-color:var(--accent,#6366f1);background:radial-gradient(circle,var(--accent,#6366f1) 45%,transparent 50%)}
 .sn{flex:1;display:flex;flex-direction:column;font-size:14px;font-weight:600}
 .sn small{font-weight:400;color:var(--muted);font-size:12px}
 .snd svg{color:var(--muted)}
@@ -101,17 +100,6 @@ ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
 .lk a{display:inline-flex;align-items:center;gap:6px;color:var(--text);font-weight:600;text-decoration:none;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:4px 10px;border-radius:99px;background:var(--inset)}
 .lk a:hover{text-decoration:underline}
 .lk svg{color:var(--c);flex:none}
-.col-notes{max-width:280px}
-.ninp{display:flex;gap:6px;margin-bottom:12px}
-.ninp input{flex:1;min-width:0;background:var(--inset);border:1px solid transparent;border-radius:12px;padding:10px 12px}
-.ninp input:focus{outline:none;border-color:var(--accent)}
-.ninp button{width:40px;height:40px;border-radius:12px;background:var(--accent,#22c55e);color:#fff;display:grid;place-items:center;flex:none}
-.note{padding:10px 12px;border-radius:14px;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow)}
-.note+.note{margin-top:8px}
-.ntext{font-size:14px;font-weight:600;word-break:break-word}
-.ntext input{width:100%;background:var(--inset);border:1px solid var(--accent);border-radius:8px;padding:6px 8px;font:inherit;font-weight:600}
-.ntext input:focus{outline:none}
-.nacts{display:flex;justify-content:flex-end;gap:2px;margin-top:2px}
 .empty{text-align:center;color:var(--muted);padding:40px 16px;border:2px dashed var(--line);border-radius:20px;font-size:14px}
 .foot{display:flex;justify-content:center;margin-top:22px}
 .ov{position:fixed;inset:0;background:rgba(5,8,20,.55);backdrop-filter:blur(4px);display:grid;place-items:center;padding:16px;z-index:9}
@@ -120,7 +108,7 @@ ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
 .modal h3{margin:0 0 8px;font-size:18px}.modal p{margin:0 0 18px;color:var(--muted);font-size:14px;line-height:1.5}
 .modal label{display:block;font-size:13px;color:var(--muted);margin-bottom:12px}
 .modal input{display:block;width:100%;margin-top:6px;background:var(--inset);border:1px solid transparent;border-radius:12px;padding:11px 12px}
-.modal input:focus{outline:none;border-color:var(--accent)}
+.modal input:focus{outline:none;border-color:#6366f1}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .mb{display:flex;justify-content:flex-end;gap:8px;margin-top:6px}
 .hint{text-align:center;font-size:12px;color:var(--muted);margin-top:14px}
@@ -134,9 +122,7 @@ ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
 <script>
 const {useState,useEffect,useRef}=React, h=React.createElement;
 const KEY='flowlist.v1';
-const GREEN='#22c55e';
-const NEUTRAL='#94a3b8';
-const COLORS=['#6366f1','#22c55e','#f59e0b','#ef4444','#06b6d4','#ec4899','#a855f7','#f97316','#0ea5e9'];
+const COLORS=['#6366f1','#22c55e','#f59e0b','#ef4444','#06b6d4','#ec4899'];
 const P={play:'M6 4l14 8-14 8z',pause:'M7 4h3v16H7zM14 4h3v16h-3z',skip:'M5 4l10 8-10 8zM18 4v16',pencil:'M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z',sliders:'M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6',trash:'M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6',reset:'M3 12a9 9 0 109-9 9 9 0 00-6.7 3L3 8M3 3v5h5',check:'M5 12l5 5 10-10',vol:'M11 5L6 9H2v6h4l5 4zM15.5 8.5a5 5 0 010 7M19 5a9 9 0 010 14',mute:'M11 5L6 9H2v6h4l5 4zM22 9l-6 6M16 9l6 6',plus:'M12 5v14M5 12h14',link:'M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1',ext:'M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5',copy:'M9 9h11v11H9zM5 15V5a1 1 0 011-1h10',up:'M6 15l6-6 6 6',down:'M6 9l6 6 6-6',grip:'M9 6h.01M9 12h.01M9 18h.01M15 6h.01M15 12h.01M15 18h.01',sun:'M12 8a4 4 0 100 8 4 4 0 000-8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4',moon:'M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z',palette:'M12 3a9 9 0 100 18c1.2 0 2-.8 2-1.8 0-1-.8-1.4-.8-2.2 0-.9.7-1.5 1.6-1.5H17a4 4 0 004-4c0-4.4-4-8.5-9-8.5z'};
 const Ic=({n,s=18,fill})=>h('svg',{width:s,height:s,viewBox:'0 0 24 24',fill:fill?'currentColor':'none',stroke:'currentColor',strokeWidth:2,strokeLinecap:'round',strokeLinejoin:'round','aria-hidden':true},h('path',{d:P[n]}));
 const pad=n=>String(n).padStart(2,'0');
@@ -198,23 +184,11 @@ function SoundPanel({muted,setMuted,volume,setVolume,sound,setSound}){
       h('span',{className:'rd'}),h('span',{className:'sn'},x.name,h('small',null,x.desc)),h(Ic,{n:'play',s:12,fill:true})))));
 }
 
-function NoteRow({note,onPatch,onDelete,onLink}){
-  const [ren,setRen]=useState(false),[v,setV]=useState(note.text);
-  const commit=()=>{setRen(false);const t=v.trim();if(t&&t!==note.text)onPatch({text:t});else setV(note.text)};
-  return h('li',{className:'note'},
-    h('div',{className:'ntext'},ren?h('input',{value:v,autoFocus:true,maxLength:200,onChange:e=>setV(e.target.value),onBlur:commit,onKeyDown:e=>{if(e.key==='Enter')commit();if(e.key==='Escape'){setV(note.text);setRen(false)}}}):note.text),
-    note.url&&h('div',{className:'lk'},h('a',{href:note.url,target:'_blank',rel:'noopener noreferrer',title:note.url},h(Ic,{n:'ext',s:13}),host(note.url))),
-    h('div',{className:'nacts'},
-      h('button',{className:'icon',title:note.url?'Edit link':'Add link',onClick:onLink,'aria-label':note.url?'Edit link':'Add link',style:note.url?{color:'var(--accent)'}:null},h(Ic,{n:'link',s:16})),
-      h('button',{className:'icon',title:'Rename',onClick:()=>{setV(note.text);setRen(true)},'aria-label':'Rename note'},h(Ic,{n:'pencil',s:16})),
-      h('button',{className:'icon del',title:'Delete',onClick:onDelete,'aria-label':'Delete note'},h(Ic,{n:'trash',s:16}))));
-}
-
 function Item({it,active,running,first,last,dnd,onPatch,onDelete,onEdit,onReset,onClone,onUp,onDown,onLink}){
   const [ren,setRen]=useState(false),[pal,setPal]=useState(false),[v,setV]=useState(it.title);
   const commit=()=>{setRen(false);const t=v.trim();if(t&&t!==it.title)onPatch({title:t});else setV(it.title)};
   const cls='item'+(active?' act':'')+(it.done?' done':'')+(dnd.dragId===it.id?' dragging':'')+(dnd.overId===it.id&&dnd.dragId&&dnd.dragId!==it.id?' over':'');
-  return h('li',{className:cls,style:{'--c':it.color||NEUTRAL},draggable:!ren,
+  return h('li',{className:cls,style:{'--c':it.color},draggable:!ren,
       onDragStart:e=>{e.dataTransfer.effectAllowed='move';try{e.dataTransfer.setData('text/plain',it.id)}catch(x){}dnd.start(it.id)},
       onDragOver:e=>{if(dnd.dragId){e.preventDefault();dnd.over(it.id)}},
       onDrop:e=>{e.preventDefault();e.stopPropagation();dnd.drop(it.id)},onDragEnd:dnd.end},
@@ -235,9 +209,7 @@ function Item({it,active,running,first,last,dnd,onPatch,onDelete,onEdit,onReset,
       h('button',{className:'icon',title:'Edit duration',onClick:onEdit,'aria-label':'Edit'},h(Ic,{n:'sliders'})),
       h('button',{className:'icon',title:'Restart timer',onClick:onReset,'aria-label':'Restart timer'},h(Ic,{n:'reset'})),
       h('button',{className:'icon del',title:'Delete',onClick:onDelete,'aria-label':'Delete'},h(Ic,{n:'trash'}))),
-    pal&&h('div',{className:'sw'},
-      h('button',{className:'none',title:'No color (default)','aria-label':'No color',onClick:()=>{onPatch({color:null});setPal(false)}}),
-      COLORS.map(c=>h('button',{key:c,style:{'--c':c},className:c===it.color?'on':'','aria-label':'Color '+c,onClick:()=>{onPatch({color:c});setPal(false)}}))));
+    pal&&h('div',{className:'sw'},COLORS.map(c=>h('button',{key:c,style:{'--c':c},className:c===it.color?'on':'','aria-label':'Color '+c,onClick:()=>{onPatch({color:c});setPal(false)}}))));
 }
 
 function App(){
@@ -250,16 +222,14 @@ function App(){
   const popRef=useRef(null);
   const [running,setRunning]=useState(false);
   const [title,setTitle]=useState(''),[mins,setMins]=useState(25);
-  const [notes,setNotes]=useState(init&&Array.isArray(init.notes)?init.notes:[]);
-  const [noteText,setNoteText]=useState('');
   const [modal,setModal]=useState(null);
   const [theme,setTheme]=useState(()=>document.documentElement.getAttribute('data-theme')||'light');
   useEffect(()=>{document.documentElement.setAttribute('data-theme',theme);try{localStorage.setItem('flowlist.theme',theme)}catch(e){}},[theme]);
   const active=items.find(i=>!i.done);
   const aid=active&&active.id, expired=!!active&&active.rem<=0;
-  const accent=(active&&active.color)?active.color:GREEN;
+  const accent=active?active.color:'#22c55e';
 
-  useEffect(()=>{try{localStorage.setItem(KEY,JSON.stringify({items,muted,volume,sound,notes}))}catch(e){}},[items,muted,volume,sound,notes]);
+  useEffect(()=>{try{localStorage.setItem(KEY,JSON.stringify({items,muted,volume,sound}))}catch(e){}},[items,muted,volume,sound]);
   useEffect(()=>{if(!soundOpen)return;const d=e=>{if(popRef.current&&!popRef.current.contains(e.target))setSoundOpen(false)},k=e=>{if(e.key==='Escape')setSoundOpen(false)};document.addEventListener('mousedown',d);document.addEventListener('keydown',k);return()=>{document.removeEventListener('mousedown',d);document.removeEventListener('keydown',k)}},[soundOpen]);
 
   useEffect(()=>{
@@ -269,25 +239,15 @@ function App(){
   },[running,aid]);
 
   useEffect(()=>{
-    const onVis=()=>{if(!document.hidden&&ctx&&ctx.state==='suspended')ctx.resume().catch(()=>{})};
-    document.addEventListener('visibilitychange',onVis);
-    return()=>document.removeEventListener('visibilitychange',onVis);
-  },[]);
-
-  useEffect(()=>{
     if(!expired||!running)return;
-    const finishedTitle=active&&active.title;
     if(!muted)playSound(sound,volume);
-    if(document.hidden&&'Notification' in window&&Notification.permission==='granted'){
-      try{new Notification('Timer finished',{body:finishedTitle?('"'+finishedTitle+'" is done.'):'A task is done.',silent:true})}catch(e){}
-    }
     setItems(p=>p.map(i=>i.id===aid?{...i,done:true,rem:0}:i));
     if(!items.some(i=>!i.done&&i.id!==aid))setRunning(false);
   },[expired,running]);
 
   useEffect(()=>{document.title=running&&active?fmt(active.rem)+' \u00b7 '+active.title:'FlowList'},[running,active&&Math.ceil(active.rem),aid]);
 
-  const toggle=()=>{unlock();if('Notification' in window&&Notification.permission==='default'){try{Notification.requestPermission()}catch(e){}}if(active)setRunning(r=>!r)};
+  const toggle=()=>{unlock();if(active)setRunning(r=>!r)};
   useEffect(()=>{const k=e=>{if(e.code==='Space'&&!/INPUT|BUTTON|TEXTAREA/.test(document.activeElement.tagName)&&!modal){e.preventDefault();toggle()}};window.addEventListener('keydown',k);return()=>window.removeEventListener('keydown',k)});
 
   const [dragId,setDragId]=useState(null),[overId,setOverId]=useState(null);
@@ -299,7 +259,7 @@ function App(){
   const dnd={dragId,overId,start:id=>setDragId(id),over:id=>setOverId(id),end:()=>{setDragId(null);setOverId(null)},drop:id=>{moveTo(dragId,id);setDragId(null);setOverId(null)}};
   const patch=(id,p)=>setItems(a=>a.map(i=>i.id===id?{...i,...p}:i));
   const add=e=>{e.preventDefault();const t=title.trim();if(!t)return;const d=Math.max(1,Math.round((+mins||1)*60));
-    setItems(a=>[...a,{id:uid(),title:t,dur:d,rem:d,color:null,done:false}]);setTitle('')};
+    setItems(a=>[...a,{id:uid(),title:t,dur:d,rem:d,color:COLORS[a.length%COLORS.length],done:false}]);setTitle('')};
   const skip=()=>{if(!active)return;patch(aid,{done:true,rem:0});if(!items.some(i=>!i.done&&i.id!==aid))setRunning(false)};
 
   const doneN=items.filter(i=>i.done).length;
@@ -310,10 +270,7 @@ function App(){
 
   const pending=items.filter(i=>!i.done), finished=items.filter(i=>i.done);
   const linking=modal&&modal.type==='link'&&items.find(i=>i.id===modal.id);
-  const linkingNote=modal&&modal.type==='notelink'&&notes.find(n=>n.id===modal.id);
   const uncheckAll=()=>{setRunning(false);setItems(a=>a.map(i=>i.done?{...i,done:false,rem:i.dur}:i))};
-  const addNote=e=>{e.preventDefault();const t=noteText.trim();if(!t)return;setNotes(a=>[...a,{id:uid(),text:t,url:''}]);setNoteText('')};
-  const patchNote=(id,p)=>setNotes(a=>a.map(n=>n.id===id?{...n,...p}:n));
   const colDrop=done=>({onDragOver:e=>{if(dragId)e.preventDefault()},onDrop:e=>{e.preventDefault();const d=items.find(i=>i.id===dragId);if(d&&d.done!==done)apply(items.map(i=>i.id===dragId?{...i,done,rem:done?0:i.dur}:i));setDragId(null);setOverId(null)}});
   const mk=list=>h('ul',null,list.map((it,ix)=>h(Item,{key:it.id,it,dnd,first:ix===0,last:ix===list.length-1,
     onClone:()=>clone(it.id),onUp:()=>step(it.id,-1),onDown:()=>step(it.id,1),onLink:()=>setModal({type:'link',id:it.id}),active:it.id===aid,running:running&&it.id===aid,
@@ -354,22 +311,13 @@ function App(){
       h('section',Object.assign({className:'col col-done','aria-label':'Done tasks'},colDrop(true)),
         h('div',{className:'colh'},h('h2',null,'Done',h('span',{className:'cnt'},finished.length)),
           h('button',{className:'btn sm',disabled:!finished.length,onClick:uncheckAll,title:'Move every done task back to the to-do list'},h(Ic,{n:'reset',s:14}),'Uncheck all')),
-        finished.length?mk(finished):h('div',{className:'empty'},'Finished tasks land here. Drag a task in, or let the timer finish it.')),
-      /* FAR RIGHT: notes */
-      h('section',{className:'col col-notes','aria-label':'Notes'},
-        h('div',{className:'colh'},h('h2',null,'Notes',h('span',{className:'cnt'},notes.length))),
-        h('form',{className:'ninp',onSubmit:addNote},
-          h('input',{placeholder:'Jot something down\u2026',value:noteText,maxLength:200,onChange:e=>setNoteText(e.target.value),'aria-label':'New note'}),
-          h('button',{disabled:!noteText.trim(),'aria-label':'Add note'},h(Ic,{n:'plus',s:16}))),
-        notes.length?h('ul',{style:{listStyle:'none',margin:0,padding:0}},notes.map(n=>h(NoteRow,{key:n.id,note:n,onPatch:p=>patchNote(n.id,p),onDelete:()=>setNotes(a=>a.filter(x=>x.id!==n.id)),onLink:()=>setModal({type:'notelink',id:n.id})})))
-        :h('div',{className:'empty'},'No notes yet \u2014 jot down anything worth remembering, with an optional link.'))),
+        finished.length?mk(finished):h('div',{className:'empty'},'Finished tasks land here. Drag a task in, or let the timer finish it.'))),
     h('div',{className:'hint'},'Press Space to start or pause \u00b7 Drag tasks between columns \u00b7 Saved automatically in this browser'),
     modal&&modal.type==='clear'&&h(Modal,{onClose:()=>setModal(null)},h('h3',null,'Remove all tasks?'),
       h('p',null,'This deletes all '+items.length+' tasks and their timers. You can\u2019t undo this.'),
       h('div',{className:'mb'},h('button',{className:'btn',onClick:()=>setModal(null),autoFocus:true},'Keep tasks'),h('button',{className:'btn danger',onClick:()=>{setRunning(false);setItems([]);setModal(null)}},'Remove all'))),
     editing&&h(EditModal,{item:editing,onClose:()=>setModal(null),onSave:p=>{patch(editing.id,p);setModal(null)}}),
-    linking&&h(LinkModal,{item:linking,onClose:()=>setModal(null),onSave:u=>{patch(linking.id,{url:u});setModal(null)}}),
-    linkingNote&&h(LinkModal,{item:linkingNote,onClose:()=>setModal(null),onSave:u=>{patchNote(linkingNote.id,{url:u});setModal(null)}}));
+    linking&&h(LinkModal,{item:linking,onClose:()=>setModal(null),onSave:u=>{patch(linking.id,{url:u});setModal(null)}}));
 }
 ReactDOM.createRoot(document.getElementById('root')).render(h(App));
 </script>
