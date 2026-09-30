@@ -28,14 +28,6 @@ button{cursor:pointer;border:0;background:none}
 .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);flex:none}
 .big{font-size:clamp(56px,9vw,110px);font-size:clamp(56px,26cqw,168px);font-weight:700;letter-spacing:-.04em;line-height:1.05;font-variant-numeric:tabular-nums;margin:10px 0 14px;color:var(--text)}
 .big.run{color:var(--accent)}
-.big.click{cursor:pointer;border-radius:16px;transition:opacity .15s}
-.big.click:hover{opacity:.8}
-.bigedit{display:flex;align-items:center;justify-content:center;gap:4px;margin:10px 0 14px}
-.bigedit input{width:2.4ch;min-width:70px;max-width:120px;text-align:center;font:inherit;font-size:clamp(56px,26cqw,132px);font-weight:700;background:transparent;border:none;border-bottom:4px solid var(--accent);color:var(--text);font-variant-numeric:tabular-nums;padding:0 2px;border-radius:0}
-.bigedit input:focus{outline:none}
-.bigedit input::-webkit-outer-spin-button,.bigedit input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-.bigedit input{-moz-appearance:textfield}
-.bigedit span{font-size:clamp(56px,26cqw,132px);font-weight:700;color:var(--muted);line-height:1}
 .bar{height:8px;border-radius:99px;background:var(--inset);overflow:hidden;max-width:420px;margin:0 auto 20px}
 .bar>i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .3s linear}
 .ctl{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
@@ -97,14 +89,7 @@ ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
 .vol{display:flex;align-items:center;gap:10px;color:var(--muted);margin-bottom:14px}
 .vol input{flex:1;min-width:0;accent-color:var(--accent,#22c55e);cursor:pointer}
 .pv{font-size:12px;font-weight:600;min-width:38px;text-align:right;font-variant-numeric:tabular-nums}
-.pl{font-size:12px;color:var(--muted);font-weight:600;margin:14px 2px 6px;text-transform:uppercase;letter-spacing:.06em}
-.pl:first-of-type{margin-top:0}
-.vrow{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.vrow p{margin:2px 0 0;font-size:12px;color:var(--muted)}
-.sw2{width:40px;height:24px;border-radius:99px;background:var(--inset);position:relative;flex:none;transition:background .15s}
-.sw2::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .15s}
-.sw2.on{background:var(--accent,#22c55e)}
-.sw2.on::after{transform:translateX(16px)}
+.pl{font-size:12px;color:var(--muted);font-weight:600;margin:0 2px 6px;text-transform:uppercase;letter-spacing:.06em}
 .snd{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:9px 10px;border-radius:10px;color:var(--text)}
 .snd:hover,.snd.on{background:var(--inset)}
 .rd{width:16px;height:16px;border-radius:50%;border:2px solid var(--muted);flex:none}
@@ -172,25 +157,6 @@ const SOUNDS=[
  {id:'sweep',name:'Sweep',desc:'Smooth rising whoosh',play:v=>{note(0,300,.6,'sine',.35*v,1400);note(.7,1400,.3,'sine',.2*v)}}
 ];
 function playSound(id,vol){try{unlock();(SOUNDS.find(x=>x.id===id)||SOUNDS[0]).play(vol)}catch(e){}}
-let cachedVoice=null;
-function pickVoice(){
-  if(!('speechSynthesis' in window))return null;
-  const voices=window.speechSynthesis.getVoices();
-  if(!voices||!voices.length)return null;
-  const score=v=>(/^en/i.test(v.lang)?10:0)+(/Google|Natural|Online|Neural|Premium/i.test(v.name)?5:0)+(v.localService===false?1:0);
-  return voices.slice().sort((a,b)=>score(b)-score(a))[0]||voices[0];
-}
-if('speechSynthesis' in window){cachedVoice=pickVoice();window.speechSynthesis.onvoiceschanged=()=>{cachedVoice=pickVoice()}}
-function speak(text,vol){
-  try{
-    if(!('speechSynthesis' in window)||!text)return;
-    window.speechSynthesis.cancel();
-    const u=new SpeechSynthesisUtterance(text);
-    u.rate=1;u.pitch=1;u.volume=Math.max(0,Math.min(1,vol==null?1:vol));
-    const v=cachedVoice||pickVoice();if(v)u.voice=v;
-    window.speechSynthesis.speak(u);
-  }catch(e){}
-}
 function normUrl(v){v=v.trim();if(!v)return'';if(!/^[a-z][a-z0-9+.-]*:/i.test(v))v='https://'+v;try{const u=new URL(v);return /^https?:$/.test(u.protocol)?u.href:null}catch(e){return null}}
 function host(u){try{return new URL(u).hostname.replace(/^www\./,'')}catch(e){return u}}
 
@@ -217,7 +183,7 @@ function LinkModal({item,onSave,onClose}){
     h('p',null,'Clicking the link on the task opens it in a new tab.'),
     h('div',{className:'mb'},item.url&&h('button',{type:'button',className:'btn',onClick:()=>onSave('')},'Remove link'),h('button',{type:'button',className:'btn',onClick:onClose},'Cancel'),h('button',{className:'btn pri',style:{padding:'11px 20px'}},'Save'))));
 }
-function SoundPanel({muted,setMuted,volume,setVolume,sound,setSound,speechOn,setSpeechOn}){
+function SoundPanel({muted,setMuted,volume,setVolume,sound,setSound}){
   const pct=Math.round(volume*100),off=muted||volume===0;
   return h('div',{className:'card pop',role:'dialog','aria-label':'Sound settings'},
     h('div',{className:'ph'},h('strong',null,'Sound'),h('button',{className:'btn sm',onClick:()=>setMuted(!muted)},muted?'Unmute':'Mute')),
@@ -229,12 +195,7 @@ function SoundPanel({muted,setMuted,volume,setVolume,sound,setSound,speechOn,set
     h('div',{className:'pl'},'Timer-end sound'),
     h('div',{role:'radiogroup','aria-label':'Timer-end sound'},SOUNDS.map(x=>h('button',{key:x.id,className:'snd'+(x.id===sound?' on':''),role:'radio','aria-checked':x.id===sound,
       onClick:()=>{setSound(x.id);setMuted(false);playSound(x.id,volume||.7)}},
-      h('span',{className:'rd'}),h('span',{className:'sn'},x.name,h('small',null,x.desc)),h(Ic,{n:'play',s:12,fill:true})))),
-    h('div',{className:'pl'},'Voice'),
-    h('div',{className:'vrow'},
-      h('div',null,h('strong',{style:{fontSize:'14px'}},'Read task names aloud'),h('p',null,'Speaks each task\u2019s name when it starts.')),
-      h('button',{className:'sw2'+(speechOn?' on':''),role:'switch','aria-checked':speechOn,'aria-label':'Read task names aloud',onClick:()=>setSpeechOn(!speechOn)})),
-    speechOn&&h('button',{className:'btn sm',style:{marginTop:'10px'},onClick:()=>speak('This is a preview of the voice.',volume||.7)},h(Ic,{n:'play',s:12,fill:true}),'Preview voice'));
+      h('span',{className:'rd'}),h('span',{className:'sn'},x.name,h('small',null,x.desc)),h(Ic,{n:'play',s:12,fill:true})))));
 }
 
 function NoteRow({note,onPatch,onDelete,onLink}){
@@ -285,9 +246,6 @@ function App(){
   const [muted,setMuted]=useState(init?!!init.muted:false);
   const [volume,setVolume]=useState(init&&typeof init.volume==='number'?init.volume:.7);
   const [sound,setSound]=useState(init&&init.sound?init.sound:'chime');
-  const [speechOn,setSpeechOn]=useState(init&&typeof init.speechOn==='boolean'?init.speechOn:true);
-  const [timeEdit,setTimeEdit]=useState(false);
-  const [em,setEm]=useState(0),[es,setEs]=useState(0);
   const [soundOpen,setSoundOpen]=useState(false);
   const popRef=useRef(null);
   const [running,setRunning]=useState(false);
@@ -301,7 +259,7 @@ function App(){
   const aid=active&&active.id, expired=!!active&&active.rem<=0;
   const accent=(active&&active.color)?active.color:GREEN;
 
-  useEffect(()=>{try{localStorage.setItem(KEY,JSON.stringify({items,muted,volume,sound,notes,speechOn}))}catch(e){}},[items,muted,volume,sound,notes,speechOn]);
+  useEffect(()=>{try{localStorage.setItem(KEY,JSON.stringify({items,muted,volume,sound,notes}))}catch(e){}},[items,muted,volume,sound,notes]);
   useEffect(()=>{if(!soundOpen)return;const d=e=>{if(popRef.current&&!popRef.current.contains(e.target))setSoundOpen(false)},k=e=>{if(e.key==='Escape')setSoundOpen(false)};document.addEventListener('mousedown',d);document.addEventListener('keydown',k);return()=>{document.removeEventListener('mousedown',d);document.removeEventListener('keydown',k)}},[soundOpen]);
 
   useEffect(()=>{
@@ -327,19 +285,10 @@ function App(){
     if(!items.some(i=>!i.done&&i.id!==aid))setRunning(false);
   },[expired,running]);
 
-  useEffect(()=>{
-    if(running&&active&&speechOn&&!muted)speak(active.title,volume);
-  },[aid,running,speechOn]);
-  useEffect(()=>{if(!running&&'speechSynthesis' in window)window.speechSynthesis.cancel()},[running]);
-  useEffect(()=>{if(!speechOn&&'speechSynthesis' in window)window.speechSynthesis.cancel()},[speechOn]);
-
   useEffect(()=>{document.title=running&&active?fmt(active.rem)+' \u00b7 '+active.title:'FlowList'},[running,active&&Math.ceil(active.rem),aid]);
 
   const toggle=()=>{unlock();if('Notification' in window&&Notification.permission==='default'){try{Notification.requestPermission()}catch(e){}}if(active)setRunning(r=>!r)};
-  const openTimeEdit=()=>{if(!active)return;setRunning(false);const r=Math.ceil(active.rem);setEm(Math.floor(r/60));setEs(r%60);setTimeEdit(true)};
-  const saveTimeEdit=e=>{if(e)e.preventDefault();const d=Math.max(1,(+em||0)*60+(+es||0));patch(aid,{dur:d,rem:d,done:false});setTimeEdit(false)};
-  useEffect(()=>{if(!timeEdit)return;const k=e=>{if(e.key==='Escape')setTimeEdit(false)};window.addEventListener('keydown',k);return()=>window.removeEventListener('keydown',k)},[timeEdit]);
-  useEffect(()=>{const k=e=>{if(e.code==='Space'&&!/INPUT|BUTTON|TEXTAREA/.test(document.activeElement.tagName)&&!modal&&!timeEdit){e.preventDefault();toggle()}};window.addEventListener('keydown',k);return()=>window.removeEventListener('keydown',k)});
+  useEffect(()=>{const k=e=>{if(e.code==='Space'&&!/INPUT|BUTTON|TEXTAREA/.test(document.activeElement.tagName)&&!modal){e.preventDefault();toggle()}};window.addEventListener('keydown',k);return()=>window.removeEventListener('keydown',k)});
 
   const [dragId,setDragId]=useState(null),[overId,setOverId]=useState(null);
   const apply=n=>{const na=n.find(i=>!i.done);if(running&&(na?na.id:null)!==aid)setRunning(false);setItems(n)};
@@ -376,29 +325,17 @@ function App(){
       h('div',{className:'tools',ref:popRef},
         h('button',{className:'icon',onClick:()=>setTheme(theme==='dark'?'light':'dark'),title:theme==='dark'?'Switch to light theme':'Switch to dark theme','aria-label':theme==='dark'?'Switch to light theme':'Switch to dark theme'},h(Ic,{n:theme==='dark'?'sun':'moon',s:20})),
         h('button',{className:'icon'+(soundOpen?' on':''),onClick:()=>{unlock();setSoundOpen(o=>!o)},title:'Sound settings','aria-label':'Sound settings','aria-expanded':soundOpen},h(Ic,{n:(muted||volume===0)?'mute':'vol',s:20})),
-        soundOpen&&h(SoundPanel,{muted,setMuted,volume,setVolume,sound,setSound,speechOn,setSpeechOn}))),
+        soundOpen&&h(SoundPanel,{muted,setMuted,volume,setVolume,sound,setSound}))),
     h('div',{className:'board'},
       /* LEFT: timer */
       h('aside',{className:'col col-timer'},
         h('section',{className:'card hero','aria-live':'off'},
           h('div',{className:'now'},active?[h('span',{className:'dot',key:'d'}),active.title]:(allDone?'All tasks complete \ud83c\udf89':'Add a task to get started')),
-          timeEdit
-            ? h('form',{className:'bigedit',onSubmit:saveTimeEdit},
-                h('input',{type:'number',min:0,max:999,value:em,autoFocus:true,onFocus:e=>e.target.select(),onChange:e=>setEm(e.target.value),'aria-label':'Minutes'}),
-                h('span',null,':'),
-                h('input',{type:'number',min:0,max:59,value:es,onFocus:e=>e.target.select(),onChange:e=>setEs(e.target.value),'aria-label':'Seconds'}))
-            : h('div',{className:'big'+(running?' run':'')+(active&&active.rem>=3600?' long':'')+(active?' click':''),
-                role:active?'button':undefined,tabIndex:active?0:undefined,title:active?'Click to set the time':undefined,
-                onClick:openTimeEdit,onKeyDown:e=>{if(active&&(e.key==='Enter'||e.key===' ')){e.preventDefault();openTimeEdit()}}},
-                active?fmt(active.rem):'00:00'),
+          h('div',{className:'big'+(running?' run':'')+(active&&active.rem>=3600?' long':'')},active?fmt(active.rem):'00:00'),
           h('div',{className:'bar'},h('i',{style:{width:pct+'%'}})),
-          h('div',{className:'ctl'},timeEdit?[
-            h('button',{key:'sv',className:'btn pri',onClick:saveTimeEdit},h(Ic,{n:'check',s:16}),'Set time'),
-            h('button',{key:'cn',className:'btn',onClick:()=>setTimeEdit(false)},'Cancel')
-          ]:[
-            h('button',{key:'pl',className:'btn pri',disabled:!active,onClick:toggle},h(Ic,{n:running?'pause':'play',fill:true}),running?'Pause':(active&&active.rem<active.dur?'Resume':'Start')),
-            h('button',{key:'sk',className:'btn',disabled:!active,onClick:skip},h(Ic,{n:'skip',s:16,fill:true}),'Skip')
-          ])),
+          h('div',{className:'ctl'},
+            h('button',{className:'btn pri',disabled:!active,onClick:toggle},h(Ic,{n:running?'pause':'play',fill:true}),running?'Pause':(active&&active.rem<active.dur?'Resume':'Start')),
+            h('button',{className:'btn',disabled:!active,onClick:skip},h(Ic,{n:'skip',s:16,fill:true}),'Skip'))),
         items.length>0&&h('div',{className:'card stats'},
           h('div',{className:'meta'},h('span',null,doneN+' of '+items.length+' done'),h('span',null,left>0?fmt(left)+' left':'Nothing left')),
           h('div',{className:'total'},h('i',{style:{width:(doneN/items.length*100)+'%'}})))),
@@ -426,7 +363,7 @@ function App(){
           h('button',{disabled:!noteText.trim(),'aria-label':'Add note'},h(Ic,{n:'plus',s:16}))),
         notes.length?h('ul',{style:{listStyle:'none',margin:0,padding:0}},notes.map(n=>h(NoteRow,{key:n.id,note:n,onPatch:p=>patchNote(n.id,p),onDelete:()=>setNotes(a=>a.filter(x=>x.id!==n.id)),onLink:()=>setModal({type:'notelink',id:n.id})})))
         :h('div',{className:'empty'},'No notes yet \u2014 jot down anything worth remembering, with an optional link.'))),
-    h('div',{className:'hint'},'Click the timer to set a time \u00b7 Space to start or pause \u00b7 Drag tasks between columns \u00b7 Saved automatically in this browser'),
+    h('div',{className:'hint'},'Press Space to start or pause \u00b7 Drag tasks between columns \u00b7 Saved automatically in this browser'),
     modal&&modal.type==='clear'&&h(Modal,{onClose:()=>setModal(null)},h('h3',null,'Remove all tasks?'),
       h('p',null,'This deletes all '+items.length+' tasks and their timers. You can\u2019t undo this.'),
       h('div',{className:'mb'},h('button',{className:'btn',onClick:()=>setModal(null),autoFocus:true},'Keep tasks'),h('button',{className:'btn danger',onClick:()=>{setRunning(false);setItems([]);setModal(null)}},'Remove all'))),
