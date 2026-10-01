@@ -79,7 +79,7 @@ ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
 .sel{background:var(--inset);border:1px solid var(--line);border-radius:10px;padding:5px 8px;font-size:12px;color:var(--muted);cursor:pointer;font-family:inherit}
 .sel:focus-visible{outline:2px solid var(--accent,#22c55e)}
 .mr{display:flex;align-items:center;gap:8px}
-.board{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.45fr) minmax(0,.8fr) minmax(220px,280px);gap:20px;align-items:start}
+.board{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.25fr) minmax(0,1fr) minmax(220px,280px);gap:20px;align-items:start}
 .col-timer{position:sticky;top:16px}
 .colh{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 2px 12px;min-height:34px}
 .colh h2{margin:0;font-size:15px;font-weight:700;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
@@ -116,15 +116,6 @@ ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
 .lk a{display:inline-flex;align-items:center;gap:6px;color:var(--text);font-weight:600;text-decoration:none;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:4px 10px;border-radius:99px;background:var(--inset)}
 .lk a:hover{text-decoration:underline}
 .lk svg{color:var(--c);flex:none}
-.sched{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);margin:6px 0 0 44px;font-variant-numeric:tabular-nums}
-.sched svg{flex:none}
-.tabs{display:flex;gap:4px;background:var(--inset);padding:3px;border-radius:12px;margin-bottom:8px;width:fit-content}
-.tabs button{padding:6px 12px;border-radius:9px;font-size:12px;font-weight:600;color:var(--muted)}
-.tabs button.on{background:var(--card);color:var(--text);box-shadow:0 1px 2px rgba(0,0,0,.08)}
-.rng{display:flex;gap:8px;flex-wrap:wrap;flex:1}
-.rng label{font-size:11px;color:var(--muted);font-weight:600;display:flex;flex-direction:column;gap:4px;flex:1 1 120px}
-.rng input{background:var(--inset);border:1px solid transparent;border-radius:12px;padding:10px 12px;font:inherit;color:var(--text)}
-.rng input:focus{outline:none;border-color:var(--accent,#22c55e)}
 .col-notes{max-width:280px}
 .ninp{display:flex;gap:6px;margin-bottom:12px}
 .ninp input{flex:1;min-width:0;background:var(--inset);border:1px solid transparent;border-radius:12px;padding:10px 12px}
@@ -159,13 +150,12 @@ ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
 const {useState,useEffect,useRef}=React, h=React.createElement;
 const KEY='flowlist.v1';
 const GREEN='#22c55e';
-const NEUTRAL='#94a3b8';
+const NEUTRAL='#222840';
 const COLORS=['#6366f1','#22c55e','#f59e0b','#ef4444','#06b6d4','#ec4899','#a855f7','#f97316','#0ea5e9'];
-const P={play:'M6 4l14 8-14 8z',pause:'M7 4h3v16H7zM14 4h3v16h-3z',skip:'M5 4l10 8-10 8zM18 4v16',pencil:'M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z',sliders:'M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6',trash:'M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6',reset:'M3 12a9 9 0 109-9 9 9 0 00-6.7 3L3 8M3 3v5h5',check:'M5 12l5 5 10-10',vol:'M11 5L6 9H2v6h4l5 4zM15.5 8.5a5 5 0 010 7M19 5a9 9 0 010 14',mute:'M11 5L6 9H2v6h4l5 4zM22 9l-6 6M16 9l6 6',plus:'M12 5v14M5 12h14',clock:'M12 22a10 10 0 100-20 10 10 0 000 20zM12 7v5l3.5 2',link:'M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1',ext:'M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5',copy:'M9 9h11v11H9zM5 15V5a1 1 0 011-1h10',up:'M6 15l6-6 6 6',down:'M6 9l6 6 6-6',grip:'M9 6h.01M9 12h.01M9 18h.01M15 6h.01M15 12h.01M15 18h.01',sun:'M12 8a4 4 0 100 8 4 4 0 000-8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4',moon:'M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z',palette:'M12 3a9 9 0 100 18c1.2 0 2-.8 2-1.8 0-1-.8-1.4-.8-2.2 0-.9.7-1.5 1.6-1.5H17a4 4 0 004-4c0-4.4-4-8.5-9-8.5z'};
+const P={play:'M6 4l14 8-14 8z',pause:'M7 4h3v16H7zM14 4h3v16h-3z',skip:'M5 4l10 8-10 8zM18 4v16',pencil:'M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z',sliders:'M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6',trash:'M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6',reset:'M3 12a9 9 0 109-9 9 9 0 00-6.7 3L3 8M3 3v5h5',check:'M5 12l5 5 10-10',vol:'M11 5L6 9H2v6h4l5 4zM15.5 8.5a5 5 0 010 7M19 5a9 9 0 010 14',mute:'M11 5L6 9H2v6h4l5 4zM22 9l-6 6M16 9l6 6',plus:'M12 5v14M5 12h14',link:'M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1',ext:'M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5',copy:'M9 9h11v11H9zM5 15V5a1 1 0 011-1h10',up:'M6 15l6-6 6 6',down:'M6 9l6 6 6-6',grip:'M9 6h.01M9 12h.01M9 18h.01M15 6h.01M15 12h.01M15 18h.01',sun:'M12 8a4 4 0 100 8 4 4 0 000-8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4',moon:'M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z',palette:'M12 3a9 9 0 100 18c1.2 0 2-.8 2-1.8 0-1-.8-1.4-.8-2.2 0-.9.7-1.5 1.6-1.5H17a4 4 0 004-4c0-4.4-4-8.5-9-8.5z'};
 const Ic=({n,s=18,fill})=>h('svg',{width:s,height:s,viewBox:'0 0 24 24',fill:fill?'currentColor':'none',stroke:'currentColor',strokeWidth:2,strokeLinecap:'round',strokeLinejoin:'round','aria-hidden':true},h('path',{d:P[n]}));
 const pad=n=>String(n).padStart(2,'0');
 const fmt=s=>{s=Math.ceil(s);const hh=Math.floor(s/3600),m=Math.floor(s%3600/60);return (hh?hh+':':'')+pad(m)+':'+pad(s%60)};
-const fmtClock=ms=>new Date(ms).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
 function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&Array.isArray(s.items))return s}catch(e){}return null}
 
@@ -210,7 +200,7 @@ function Modal({onClose,children}){
 }
 function EditModal({item,onSave,onClose}){
   const [t,setT]=useState(item.title),[m,setM]=useState(Math.floor(item.dur/60)),[s,setS]=useState(item.dur%60);
-  const save=e=>{e.preventDefault();const d=Math.max(1,(+m||0)*60+(+s||0));onSave({title:t.trim()||item.title,dur:d,rem:d,done:false,startedAt:null,finishedAt:null})};
+  const save=e=>{e.preventDefault();const d=Math.max(1,(+m||0)*60+(+s||0));onSave({title:t.trim()||item.title,dur:d,rem:d,done:false})};
   return h(Modal,{onClose},h('form',{onSubmit:save},h('h3',null,'Edit task'),
     h('label',null,'Name',h('input',{value:t,onChange:e=>setT(e.target.value),autoFocus:true,maxLength:80})),
     h('div',{className:'two'},h('label',null,'Minutes',h('input',{type:'number',min:0,value:m,onChange:e=>setM(e.target.value)})),h('label',null,'Seconds',h('input',{type:'number',min:0,max:59,value:s,onChange:e=>setS(e.target.value)}))),
@@ -259,22 +249,21 @@ function NoteRow({note,onPatch,onDelete,onLink}){
       h('button',{className:'icon del',title:'Delete',onClick:onDelete,'aria-label':'Delete note'},h(Ic,{n:'trash',s:16}))));
 }
 
-function Item({it,active,running,first,last,dnd,sched,onPatch,onDelete,onEdit,onReset,onClone,onUp,onDown,onLink}){
+function Item({it,active,running,first,last,dnd,onPatch,onDelete,onEdit,onReset,onClone,onUp,onDown,onLink}){
   const [ren,setRen]=useState(false),[pal,setPal]=useState(false),[v,setV]=useState(it.title);
   const commit=()=>{setRen(false);const t=v.trim();if(t&&t!==it.title)onPatch({title:t});else setV(it.title)};
   const cls='item'+(active?' act':'')+(it.done?' done':'')+(dnd.dragId===it.id?' dragging':'')+(dnd.overId===it.id&&dnd.dragId&&dnd.dragId!==it.id?' over':'');
-  return h('li',{className:cls,style:{'--c':it.color||'var(--line)'},draggable:!ren,
+  return h('li',{className:cls,style:{'--c':it.color||NEUTRAL},draggable:!ren,
       onDragStart:e=>{e.dataTransfer.effectAllowed='move';try{e.dataTransfer.setData('text/plain',it.id)}catch(x){}dnd.start(it.id)},
       onDragOver:e=>{if(dnd.dragId){e.preventDefault();dnd.over(it.id)}},
       onDrop:e=>{e.preventDefault();e.stopPropagation();dnd.drop(it.id)},onDragEnd:dnd.end},
     h('div',{className:'row'},
       h('span',{className:'grip',title:'Drag to reorder','aria-hidden':true},h(Ic,{n:'grip',s:18})),
-      h('button',{className:'chk',onClick:()=>onPatch(it.done?{done:false,rem:it.dur,startedAt:null,finishedAt:null}:{done:true,rem:0,finishedAt:Date.now(),startedAt:it.startedAt||Date.now()}),'aria-label':it.done?'Mark as not done':'Mark as done'},it.done&&h(Ic,{n:'check',s:14})),
+      h('button',{className:'chk',onClick:()=>onPatch(it.done?{done:false,rem:it.dur}:{done:true,rem:0}),'aria-label':it.done?'Mark as not done':'Mark as done'},it.done&&h(Ic,{n:'check',s:14})),
       h('div',{className:'tt'},ren?h('input',{value:v,autoFocus:true,maxLength:80,onChange:e=>setV(e.target.value),onBlur:commit,onKeyDown:e=>{if(e.key==='Enter')commit();if(e.key==='Escape'){setV(it.title);setRen(false)}}}):it.title,
         active&&!ren&&h('span',{className:'badge'},running?'Running':'Up next'),it.done&&!ren&&h('span',{className:'badge'},'Done')),
       h('div',{className:'time'},it.done?fmt(it.dur):fmt(it.rem))),
     it.url&&h('div',{className:'lk'},h('a',{href:it.url,target:'_blank',rel:'noopener noreferrer',title:it.url},h(Ic,{n:'ext',s:13}),host(it.url))),
-    sched&&h('div',{className:'sched',title:it.done?'When this task actually ran':'Projected \u2014 shifts if earlier tasks run long or short'},h(Ic,{n:'clock',s:13}),sched.start+' \u2013 '+sched.end),
     h('div',{className:'acts'},
       h('button',{className:'icon',title:'Move up',disabled:first,style:first?{opacity:.3}:null,onClick:onUp,'aria-label':'Move up'},h(Ic,{n:'up'})),
       h('button',{className:'icon',title:'Move down',disabled:last,style:last?{opacity:.3}:null,onClick:onDown,'aria-label':'Move down'},h(Ic,{n:'down'})),
@@ -303,10 +292,6 @@ function App(){
   const popRef=useRef(null);
   const [running,setRunning]=useState(false);
   const [title,setTitle]=useState(''),[mins,setMins]=useState(25);
-  const [addMode,setAddMode]=useState('dur');
-  const [rangeFrom,setRangeFrom]=useState(''),[rangeTo,setRangeTo]=useState('');
-  const [,setTick]=useState(0);
-  useEffect(()=>{const t=setInterval(()=>setTick(x=>x+1),30000);return()=>clearInterval(t)},[]);
   const [notes,setNotes]=useState(init&&Array.isArray(init.notes)?init.notes:[]);
   const [noteText,setNoteText]=useState('');
   const [modal,setModal]=useState(null);
@@ -332,17 +317,13 @@ function App(){
   },[]);
 
   useEffect(()=>{
-    if(running&&active&&!active.startedAt){const id=active.id;setItems(p=>p.map(i=>i.id===id?{...i,startedAt:Date.now()}:i))}
-  },[aid,running]);
-
-  useEffect(()=>{
     if(!expired||!running)return;
     const finishedTitle=active&&active.title;
     if(!muted)playSound(sound,volume);
     if(document.hidden&&'Notification' in window&&Notification.permission==='granted'){
       try{new Notification('Timer finished',{body:finishedTitle?('"'+finishedTitle+'" is done.'):'A task is done.',silent:true})}catch(e){}
     }
-    setItems(p=>p.map(i=>i.id===aid?{...i,done:true,rem:0,finishedAt:Date.now()}:i));
+    setItems(p=>p.map(i=>i.id===aid?{...i,done:true,rem:0}:i));
     if(!items.some(i=>!i.done&&i.id!==aid))setRunning(false);
   },[expired,running]);
 
@@ -356,7 +337,7 @@ function App(){
 
   const toggle=()=>{unlock();if('Notification' in window&&Notification.permission==='default'){try{Notification.requestPermission()}catch(e){}}if(active)setRunning(r=>!r)};
   const openTimeEdit=()=>{if(!active)return;setRunning(false);const r=Math.ceil(active.rem);setEm(Math.floor(r/60));setEs(r%60);setTimeEdit(true)};
-  const saveTimeEdit=e=>{if(e)e.preventDefault();const d=Math.max(1,(+em||0)*60+(+es||0));patch(aid,{dur:d,rem:d,done:false,startedAt:null,finishedAt:null});setTimeEdit(false)};
+  const saveTimeEdit=e=>{if(e)e.preventDefault();const d=Math.max(1,(+em||0)*60+(+es||0));patch(aid,{dur:d,rem:d,done:false});setTimeEdit(false)};
   useEffect(()=>{if(!timeEdit)return;const k=e=>{if(e.key==='Escape')setTimeEdit(false)};window.addEventListener('keydown',k);return()=>window.removeEventListener('keydown',k)},[timeEdit]);
   useEffect(()=>{const k=e=>{if(e.code==='Space'&&!/INPUT|BUTTON|TEXTAREA/.test(document.activeElement.tagName)&&!modal&&!timeEdit){e.preventDefault();toggle()}};window.addEventListener('keydown',k);return()=>window.removeEventListener('keydown',k)});
 
@@ -364,23 +345,12 @@ function App(){
   const apply=n=>{const na=n.find(i=>!i.done);if(running&&(na?na.id:null)!==aid)setRunning(false);setItems(n)};
   const moveTo=(id,tid)=>{if(!id||id===tid)return;const from=items.findIndex(i=>i.id===id),to=items.findIndex(i=>i.id===tid);if(from<0||to<0)return;const dn=items[to].done;const n=items.slice();let [m]=n.splice(from,1);if(m.done!==dn)m={...m,done:dn,rem:dn?0:m.dur};n.splice(to,0,m);apply(n)};
   const step=(id,d)=>{const cur=items.find(x=>x.id===id);if(!cur)return;const grp=items.filter(x=>x.done===cur.done);const o=grp[grp.indexOf(cur)+d];if(!o)return;const i=items.indexOf(cur),j=items.indexOf(o);const n=items.slice();[n[i],n[j]]=[n[j],n[i]];apply(n)};
-  const clone=id=>{const i=items.findIndex(x=>x.id===id);if(i<0)return;const o=items[i];const n=items.slice();n.splice(i+1,0,{...o,id:uid(),title:o.title+' (copy)',rem:o.dur,done:false,startedAt:null,finishedAt:null});apply(n)};
+  const clone=id=>{const i=items.findIndex(x=>x.id===id);if(i<0)return;const o=items[i];const n=items.slice();n.splice(i+1,0,{...o,id:uid(),title:o.title+' (copy)',rem:o.dur,done:false});apply(n)};
   const sortBy=k=>{if(!k)return;const n=items.slice();const cmp={short:(a,b)=>a.dur-b.dur,long:(a,b)=>b.dur-a.dur,az:(a,b)=>a.title.localeCompare(b.title),za:(a,b)=>b.title.localeCompare(a.title),done:(a,b)=>(a.done?1:0)-(b.done?1:0)}[k];n.sort(cmp);apply(n)};
   const dnd={dragId,overId,start:id=>setDragId(id),over:id=>setOverId(id),end:()=>{setDragId(null);setOverId(null)},drop:id=>{moveTo(dragId,id);setDragId(null);setOverId(null)}};
   const patch=(id,p)=>setItems(a=>a.map(i=>i.id===id?{...i,...p}:i));
-  const add=e=>{e.preventDefault();const t=title.trim();if(!t)return;
-    let d;
-    if(addMode==='range'){
-      if(!rangeFrom||!rangeTo)return;
-      const [fh,fm]=rangeFrom.split(':').map(Number),[th,tm]=rangeTo.split(':').map(Number);
-      let diff=(th*60+tm)-(fh*60+fm);if(diff<=0)diff+=24*60;
-      d=Math.max(60,diff*60);
-    }else{
-      d=Math.max(1,Math.round((+mins||1)*60));
-    }
-    setItems(a=>[...a,{id:uid(),title:t,dur:d,rem:d,color:null,done:false,startedAt:null,finishedAt:null}]);
-    setTitle('');setRangeFrom('');setRangeTo('');
-  };
+  const add=e=>{e.preventDefault();const t=title.trim();if(!t)return;const d=Math.max(1,Math.round((+mins||1)*60));
+    setItems(a=>[...a,{id:uid(),title:t,dur:d,rem:d,color:null,done:false}]);setTitle('')};
   const skip=()=>{if(!active)return;patch(aid,{done:true,rem:0});if(!items.some(i=>!i.done&&i.id!==aid))setRunning(false)};
 
   const doneN=items.filter(i=>i.done).length;
@@ -392,26 +362,13 @@ function App(){
   const pending=items.filter(i=>!i.done), finished=items.filter(i=>i.done);
   const linking=modal&&modal.type==='link'&&items.find(i=>i.id===modal.id);
   const linkingNote=modal&&modal.type==='notelink'&&notes.find(n=>n.id===modal.id);
-  const uncheckAll=()=>{setRunning(false);setItems(a=>a.map(i=>i.done?{...i,done:false,rem:i.dur,startedAt:null,finishedAt:null}:i))};
+  const uncheckAll=()=>{setRunning(false);setItems(a=>a.map(i=>i.done?{...i,done:false,rem:i.dur}:i))};
   const addNote=e=>{e.preventDefault();const t=noteText.trim();if(!t)return;setNotes(a=>[...a,{id:uid(),text:t,url:''}]);setNoteText('')};
   const patchNote=(id,p)=>setNotes(a=>a.map(n=>n.id===id?{...n,...p}:n));
   const colDrop=done=>({onDragOver:e=>{if(dragId)e.preventDefault()},onDrop:e=>{e.preventDefault();const d=items.find(i=>i.id===dragId);if(d&&d.done!==done)apply(items.map(i=>i.id===dragId?{...i,done,rem:done?0:i.dur}:i));setDragId(null);setOverId(null)}});
-
-  const schedule=(()=>{
-    const map={};const now=Date.now();
-    if(active){
-      const start=active.startedAt||now;
-      map[active.id]={start:fmtClock(start),end:fmtClock(now+active.rem*1000)};
-      let cursor=now+active.rem*1000;
-      pending.filter(i=>i.id!==aid).forEach(i=>{map[i.id]={start:fmtClock(cursor),end:fmtClock(cursor+i.dur*1000)};cursor+=i.dur*1000});
-    }
-    finished.forEach(i=>{if(i.startedAt&&i.finishedAt)map[i.id]={start:fmtClock(i.startedAt),end:fmtClock(i.finishedAt)}});
-    return map;
-  })();
-
-  const mk=list=>h('ul',null,list.map((it,ix)=>h(Item,{key:it.id,it,dnd,sched:schedule[it.id],first:ix===0,last:ix===list.length-1,
+  const mk=list=>h('ul',null,list.map((it,ix)=>h(Item,{key:it.id,it,dnd,first:ix===0,last:ix===list.length-1,
     onClone:()=>clone(it.id),onUp:()=>step(it.id,-1),onDown:()=>step(it.id,1),onLink:()=>setModal({type:'link',id:it.id}),active:it.id===aid,running:running&&it.id===aid,
-    onPatch:p=>patch(it.id,p),onReset:()=>patch(it.id,{rem:it.dur,done:false,startedAt:null,finishedAt:null}),onEdit:()=>setModal({type:'edit',id:it.id}),
+    onPatch:p=>patch(it.id,p),onReset:()=>patch(it.id,{rem:it.dur,done:false}),onEdit:()=>setModal({type:'edit',id:it.id}),
     onDelete:()=>{if(it.id===aid)setRunning(false);setItems(a=>a.filter(x=>x.id!==it.id))}})));
 
   return h('div',{className:'wrap',style:{'--accent':accent}},
@@ -450,17 +407,10 @@ function App(){
         h('div',{className:'colh'},h('h2',null,'To do',h('span',{className:'cnt'},pending.length)),
           items.length>1&&h('select',{className:'sel','aria-label':'Sort tasks',value:'',onChange:e=>sortBy(e.target.value)},
             h('option',{value:''},'Sort\u2026'),h('option',{value:'short'},'Shortest first'),h('option',{value:'long'},'Longest first'),h('option',{value:'az'},'Name A\u2013Z'),h('option',{value:'za'},'Name Z\u2013A'))),
-        h('div',{className:'tabs',role:'tablist','aria-label':'How to set the time'},
-          h('button',{type:'button',className:addMode==='dur'?'on':'',role:'tab','aria-selected':addMode==='dur',onClick:()=>setAddMode('dur')},'Duration'),
-          h('button',{type:'button',className:addMode==='range'?'on':'',role:'tab','aria-selected':addMode==='range',onClick:()=>setAddMode('range')},'Time range')),
         h('form',{className:'card add',onSubmit:add},
           h('input',{className:'t',placeholder:'What needs doing?',value:title,maxLength:80,onChange:e=>setTitle(e.target.value),'aria-label':'Task name'}),
-          addMode==='dur'
-            ? h('input',{className:'m',type:'number',min:1,max:999,value:mins,onChange:e=>setMins(e.target.value),'aria-label':'Minutes',title:'Minutes'})
-            : h('div',{className:'rng'},
-                h('label',null,'From',h('input',{type:'time',value:rangeFrom,onChange:e=>setRangeFrom(e.target.value),required:true})),
-                h('label',null,'To',h('input',{type:'time',value:rangeTo,onChange:e=>setRangeTo(e.target.value),required:true}))),
-          h('button',{className:'btn pri',style:{padding:'11px 18px'},disabled:!title.trim()||(addMode==='range'&&(!rangeFrom||!rangeTo))},h(Ic,{n:'plus',s:16}),'Add')),
+          h('input',{className:'m',type:'number',min:1,max:999,value:mins,onChange:e=>setMins(e.target.value),'aria-label':'Minutes',title:'Minutes'}),
+          h('button',{className:'btn pri',style:{padding:'11px 18px'},disabled:!title.trim()},h(Ic,{n:'plus',s:16}),'Add')),
         pending.length?mk(pending):h('div',{className:'empty'},items.length===0?'No tasks yet. Add your first one and press Start \u2014 each task runs in order and beeps when its time is up.':'Nothing left to do \ud83c\udf89 Use \u201cUncheck all\u201d to run the list again.'),
         items.length>0&&h('div',{className:'foot'},h('button',{className:'btn danger',onClick:()=>setModal({type:'clear'})},h(Ic,{n:'trash',s:16}),'Remove all tasks'))),
       /* RIGHT: done */
